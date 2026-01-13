@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { LandingCompComponent } from './components/landing-comp/landing-comp.component';
-import { ClientFormComponent } from './components/client-form/client-form.component';
+import { LandingCompComponent } from './dashboard/components/landing-comp/landing-comp.component'
+import { ClientFormComponent } from './dashboard/components/client-form/client-form.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
