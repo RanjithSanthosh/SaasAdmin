@@ -1,0 +1,17 @@
+<div class="flex h-screen w-screen bg-slate-50 relative overflow-hidden">
+    <app-sidebar
+        class="fixed inset-y-0 left-0 z-20 transition-all duration-300 md:relative md:translate-x-0 md:visible md:shadow-none bg-white"
+        [class.-translate-x-full]="!isSidebarOpen" [class.invisible]="!isSidebarOpen"
+        [class.translate-x-0]="isSidebarOpen" [class.visible]="isSidebarOpen"
+        [class.shadow-xl]="isSidebarOpen"></app-sidebar>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden w-full">
+        <app-header (toggleSidebar)="toggleSidebar()"></app-header>
+        <div class="flex-1 overflow-y-auto relative h-full">
+            <app-main-section></app-main-section>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-10 md:hidden transition-opacity duration-300"
+        *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
+</div>

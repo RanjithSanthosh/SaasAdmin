@@ -1,0 +1,214 @@
+<div class=" mx-auto bg-white shadow-xl overflow-hidden border border-slate-100 rounded-2xl my-8">
+
+    <!-- Header -->
+    <div class="px-8 py-6 bg-linear-to-r from-indigo-600 to-purple-600">
+        <h2 class="text-2xl font-bold text-white">Create New Client</h2>
+        <p class="text-indigo-100 mt-1">Fill in the details to register a new client.</p>
+    </div>
+
+    <div class="p-8">
+        <form (ngSubmit)="onSave()" class="space-y-6">
+
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                <h3 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                    Details
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- 1. Client Code -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Client Code <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.Client_Code" name="Client_Code" maxlength="20"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Client_Code" [class.border-slate-300]="!errors.Client_Code">
+                        <p *ngIf="errors.Client_Code" class="text-xs text-red-500 mt-1">{{ errors.Client_Code }}</p>
+                    </div>
+
+                    <!-- 2. Client Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Client Name <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.Client_Name" name="Client_Name" maxlength="50"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Client_Name" [class.border-slate-300]="!errors.Client_Name">
+                        <p *ngIf="errors.Client_Name" class="text-xs text-red-500 mt-1">{{ errors.Client_Name }}</p>
+                    </div>
+
+                    <!-- 3. Address -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Address <span
+                                class="text-red-500">*</span></label>
+                        <textarea [(ngModel)]="clientObj.Address" name="Address" rows="3" maxlength="200"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Address"
+                            [class.border-slate-300]="!errors.Address"></textarea>
+                        <p *ngIf="errors.Address" class="text-xs text-red-500 mt-1">{{ errors.Address }}</p>
+                    </div>
+
+                    <!-- 4. State -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">State <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.State" name="State" maxlength="50"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.State" [class.border-slate-300]="!errors.State">
+                        <p *ngIf="errors.State" class="text-xs text-red-500 mt-1">{{ errors.State }}</p>
+                    </div>
+
+                    <!-- 5. Mobile -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Mobile <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.Mobile" name="Mobile" maxlength="12"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Mobile" [class.border-slate-300]="!errors.Mobile">
+                        <p *ngIf="errors.Mobile" class="text-xs text-red-500 mt-1">{{ errors.Mobile }}</p>
+                    </div>
+
+                    <!-- 6. Alternate Mobile -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Alternate Mobile</label>
+                        <input type="text" [(ngModel)]="clientObj.Alternate_Mobile" name="Alternate_Mobile"
+                            maxlength="12"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all border-slate-300"
+                            [class.border-red-300]="errors.Alternate_Mobile">
+                        <p *ngIf="errors.Alternate_Mobile" class="text-xs text-red-500 mt-1">{{ errors.Alternate_Mobile
+                            }}</p>
+                    </div>
+
+                    <!-- 7. Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Email <span
+                                class="text-red-500">*</span></label>
+                        <input type="email" [(ngModel)]="clientObj.Email" name="Email" maxlength="50"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Email" [class.border-slate-300]="!errors.Email">
+                        <p *ngIf="errors.Email" class="text-xs text-red-500 mt-1">{{ errors.Email }}</p>
+                    </div>
+
+                    <!-- 8. Contact Person -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Contact Person <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.Contact_Person" name="Contact_Person" maxlength="50"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Contact_Person"
+                            [class.border-slate-300]="!errors.Contact_Person">
+                        <p *ngIf="errors.Contact_Person" class="text-xs text-red-500 mt-1">{{ errors.Contact_Person }}
+                        </p>
+                    </div>
+
+                    <!-- 9. Creation Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Creation Date <span
+                                class="text-red-500">*</span></label>
+                        <input type="date" [(ngModel)]="clientObj.Creation_Date" name="Creation_Date"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Creation_Date"
+                            [class.border-slate-300]="!errors.Creation_Date">
+                        <p *ngIf="errors.Creation_Date" class="text-xs text-red-500 mt-1">{{ errors.Creation_Date }}</p>
+                    </div>
+
+                    <!-- 10. Subscription Start -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Subscription Start <span
+                                class="text-red-500">*</span></label>
+                        <input type="date" [(ngModel)]="clientObj.Subscription_Start" name="Subscription_Start"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Subscription_Start"
+                            [class.border-slate-300]="!errors.Subscription_Start">
+                        <p *ngIf="errors.Subscription_Start" class="text-xs text-red-500 mt-1">{{
+                            errors.Subscription_Start }}</p>
+                    </div>
+
+                    <!-- 11. Subscription End -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Subscription End <span
+                                class="text-red-500">*</span></label>
+                        <input type="date" [(ngModel)]="clientObj.Subscription_End" name="Subscription_End"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Subscription_End"
+                            [class.border-slate-300]="!errors.Subscription_End">
+                        <p *ngIf="errors.Subscription_End" class="text-xs text-red-500 mt-1">{{ errors.Subscription_End
+                            }}</p>
+                    </div>
+
+                    <!-- 12. App Login -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">App Login <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.App_Login" name="App_Login" maxlength="20"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.App_Login" [class.border-slate-300]="!errors.App_Login">
+                        <p *ngIf="errors.App_Login" class="text-xs text-red-500 mt-1">{{ errors.App_Login }}</p>
+                    </div>
+
+                    <!-- 13. App Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">App Password <span
+                                class="text-red-500">*</span></label>
+                        <input type="password" [(ngModel)]="clientObj.App_Pwd" name="App_Pwd" maxlength="20"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.App_Pwd" [class.border-slate-300]="!errors.App_Pwd">
+                        <p *ngIf="errors.App_Pwd" class="text-xs text-red-500 mt-1">{{ errors.App_Pwd }}</p>
+                    </div>
+
+                    <!-- 14. DB Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">DB Name <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" [(ngModel)]="clientObj.Db_Name" name="Db_Name" maxlength="20"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            [class.border-red-300]="errors.Db_Name" [class.border-slate-300]="!errors.Db_Name">
+                        <p *ngIf="errors.Db_Name" class="text-xs text-red-500 mt-1">{{ errors.Db_Name }}</p>
+                    </div>
+
+                    <!-- 15. Status -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                        <select [(ngModel)]="clientObj.Status" name="Status"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <!-- 16. Version Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Version Type</label>
+                        <select [(ngModel)]="clientObj.Version_Type" name="Version_Type"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white">
+                            <option value="Standard">Standard</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="Enterprise">Enterprise</option>
+                        </select>
+                    </div>
+
+                    <!-- 17. Own Server -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Own Server</label>
+                        <select [(ngModel)]="clientObj.Own_Server" name="Own_Server"
+                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100">
+                <button type="button" (click)="onCancel()"
+                    class="px-6 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="isSubmitting"
+                    class="px-6 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors shadow-lg shadow-indigo-500/30 disabled:opacity-70 disabled:cursor-not-allowed">
+                    {{ isSubmitting ? 'Saving...' : 'Create Client' }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
