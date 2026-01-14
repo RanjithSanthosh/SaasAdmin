@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.css'
 })
-export class ClientFormComponent {
+export class ClientFormComponent implements OnInit {
 
   clientObj: any = {
     Client_Code: '',
@@ -27,15 +27,32 @@ export class ClientFormComponent {
     App_Login: '',
     App_Pwd: '',
     Db_Name: '',
-    Status: 'active',
+    Status: 'Active',
     Version_Type: 'Standard',
-    Own_Server: 'no'
+    Own_Server: 'No'
   };
 
   errors: any = {};
   isSubmitting: boolean = false;
+  isEditMode: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    // Check navigation state for edit data
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state?.['clientData']) {
+      this.clientObj = { ...navigation.extras.state['clientData'] };
+      this.isEditMode = true;
+    }
+  }
+
+  ngOnInit(): void {
+    // Fallback if accessed via history directly (e.g. reload not supported for state usually, but for navigation it is)
+    // If constructed above, this might be redundant but safe.
+    if (!this.isEditMode && history.state.clientData) {
+      this.clientObj = { ...history.state.clientData };
+      this.isEditMode = true;
+    }
+  }
 
   validateForm(): boolean {
     this.errors = {};
@@ -168,7 +185,7 @@ export class ClientFormComponent {
       // Simulate API call
       setTimeout(() => {
         this.isSubmitting = false;
-        alert('Client Created Successfully!');
+        alert(this.isEditMode ? 'Client Updated Successfully!' : 'Client Created Successfully!');
         this.router.navigate(['dashboard/saas-client']);
       }, 1000);
     } else {

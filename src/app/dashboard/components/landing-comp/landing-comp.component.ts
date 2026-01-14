@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DataTable } from 'simple-datatables';
 import { ClientDataService, ClientDataFormate } from './client-data.service';
+import { finalize } from 'rxjs';
 import { OnInit } from '@angular/core';
 
 interface Client extends ClientDataFormate { };
@@ -18,56 +19,77 @@ interface Client extends ClientDataFormate { };
 export class LandingCompComponent implements AfterViewInit, OnInit, OnDestroy {
   constructor(private clientDataService: ClientDataService, private router: Router, private cdr: ChangeDetectorRef) { }
 
-  dataTable: any;
   clients: Client[] = [];
+  paginatedClients: Client[] = [];
+  isLoading: boolean = false;
+
+  // Pagination properties
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalItems: number = 0;
+  totalPages: number = 0;
+  pages: number[] = [];
 
   ngOnInit(): void {
     this.loadData();
   }
 
   ngAfterViewInit(): void {
-    // Table initialization moved to loadData to handle async data
+    // No external library initialization
   }
 
   ngOnDestroy(): void {
-    if (this.dataTable) {
-      this.dataTable.destroy();
-    }
+    // Cleanup if necessary
   }
 
   loadData(): void {
-    this.clientDataService.getClients().subscribe((data: Client[]) => {
+    this.isLoading = true;
+    this.clientDataService.getClients().pipe(finalize(() => {
+      this.isLoading = false;
+      this.updatePagination();
+    })).subscribe((data: Client[]) => {
       this.clients = data;
-      this.cdr.detectChanges(); // Ensure DOM is updated immediately
-
-      // Wait for next tick to ensure DOM is ready
-      setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          const table = document.getElementById("filter-table") as HTMLTableElement;
-          if (table) {
-            if (this.dataTable) {
-              this.dataTable.destroy();
-            }
-            this.dataTable = new DataTable(table, {
-              searchable: true,
-              sortable: true,
-              perPage: 10,
-              perPageSelect: [5, 10, 15, 20],
-              labels: {
-                placeholder: "Search clients...",
-                perPage: "entries per page",
-                noRows: "No clients found",
-              }
-            });
-          }
-        }
-      }, 0);
+      this.totalItems = data.length;
+      this.updatePagination();
+      this.cdr.detectChanges();
     });
+  }
+
+  updatePagination() {
+    this.totalItems = this.clients.length;
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    // Generate page numbers (simple version, can be made dynamic/smart later)
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+    this.paginate();
+  }
+
+  paginate() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedClients = this.clients.slice(start, end);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.paginate();
+    }
   }
 
   createNew() {
     this.router.navigate(['dashboard/new-client']);
   }
+
+  editClient(client: Client) {
+    this.router.navigate(['dashboard/new-client'], { state: { clientData: client } });
+  }
+  // Helper for template to calculate visible range
+  get startItemIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage + 1;
+  }
+
+  get endItemIndex(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
+  }
 }
-
-
